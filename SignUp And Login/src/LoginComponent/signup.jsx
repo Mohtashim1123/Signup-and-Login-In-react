@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 
+
+const emailRegExp = RegExp(/^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i
+)
+
 const formValid = formError => {
   let valid = true;
 
-  Object.values(formError).forEach(val =>
-     val.length > 0 && (valid = false));
+  Object.values(formError).forEach(val =>{
+    val.length > 0 && (valid = false)});
   return valid;
 }
 
@@ -17,6 +21,7 @@ class App extends Component {
       lastName: '',
       email: '',
       password: '',
+      firstNames: '',
       formError: {
         firstName: "",
         lastName: "",
@@ -26,9 +31,40 @@ class App extends Component {
     }
   }
   handleChange = e => {
-    this.setState({ [e.target.name] : e.target.value });
+    const { name, value } = e.target
+    let { firstName, lastName, email, password } = this.state.formError;
+    let formError  = this.state.formError;
+    this.setState({ [name]: value });
     console.log(e.target.name)
     console.log(e.target.value)
+    // if (value.length < 3 && name !== "email")
+    //   this.setState({ formError: { ...this.state.formError, [name]: "minimum 3 character required" } })
+    // else {
+    //   email = emailRegExp.test(value) && value.length < 3 ? '' : 'Invalid email address';
+    //   this.setState({ formError: { ...this.state.formError, [name]: email } })
+    // }
+
+    switch (name) {
+      case "firstName":
+      this.setState({formError:value.length < 3 ? "minimum 3 character required" : ""})
+        break;
+
+      case "lastName":
+        lastName = value.length < 3 ? "minimum 3 character required" : "";
+        break;
+
+      case "email":
+        email = emailRegExp.test(value) && value.length < 3 ? '' : 'Invalid email address';
+        break;
+
+      case "password":
+        password = value.length < 3 ? "minimum 3 character required" : "";
+        break;
+
+      default:
+    }
+
+    this.setState({formError, [name]: value }, () => console.log(this.state))
   }
 
   handleSubmit = e => {
@@ -36,7 +72,7 @@ class App extends Component {
 
     if (formValid(this.state.formError)) {
       console.log(`
-firstName:${this.state.firstNamee}
+firstName:${this.state.firstName}
 lastName:${this.state.lastName}
 Email:${this.state.email}
 password:${this.state.password}
@@ -60,9 +96,10 @@ password:${this.state.password}
               name="firstName"
               value={this.state.firstName}
               noValidate
-              
+
             ></input>
           </div>
+
           <div className="lastName">
             <label htmlFor="lastName">Last Name</label>
             <input
@@ -72,8 +109,8 @@ password:${this.state.password}
               value={this.state.lastName}
               name="lastName"
               noValidate
-              
-            ></input> 
+
+            ></input>
           </div>
           <div className="email">
             <label htmlFor="email">Email</label>
@@ -84,7 +121,7 @@ password:${this.state.password}
               placeholder="Email"
               name="email"
               noValidate
-              
+
             ></input>
           </div>
           <div className="password">
@@ -96,7 +133,7 @@ password:${this.state.password}
               name="password"
               value={this.state.password}
               noValidate
-              
+
             ></input>
           </div>
           <div className="createAccount">
