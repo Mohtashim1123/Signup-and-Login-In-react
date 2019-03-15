@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 
 
-const emailRegExp = RegExp(/^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i
-)
+const emailRegExp = RegExp(/^[a-zA-Z0-9.!#$%&`*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
 
 const formValid = formError => {
   let valid = true;
 
-  Object.values(formError).forEach(val =>{
-    val.length > 0 && (valid = false)});
+  Object.values(formError).forEach(val => {
+    val.length > 0 && (valid = false)
+  });
   return valid;
 }
 
@@ -32,57 +32,56 @@ class App extends Component {
   }
   handleChange = e => {
     const { name, value } = e.target
-    let { firstName, lastName, email, password } = this.state.formError;
-    let formError  = this.state.formError;
+    // let { firstName, lastName, email, password } = this.state.formError;
+    let formError = this.state.formError;
     this.setState({ [name]: value });
     console.log(e.target.name)
     console.log(e.target.value)
-    // if (value.length < 3 && name !== "email")
-    //   this.setState({ formError: { ...this.state.formError, [name]: "minimum 3 character required" } })
-    // else {
-    //   email = emailRegExp.test(value) && value.length < 3 ? '' : 'Invalid email address';
-    //   this.setState({ formError: { ...this.state.formError, [name]: email } })
-    // }
-
     switch (name) {
       case "firstName":
-      this.setState({formError:value.length < 3 ? "minimum 3 character required" : ""})
+        formError.firstName = value.length < 3 ? "minimum 3 character required" : "";
         break;
 
       case "lastName":
-        lastName = value.length < 3 ? "minimum 3 character required" : "";
+      formError.lastName = value.length < 3 ? "minimum 3 character required" : "";
         break;
 
       case "email":
-        email = emailRegExp.test(value) && value.length < 3 ? '' : 'Invalid email address';
+       formError.email = emailRegExp.test(value) ? '' : 'Invalid email address';
         break;
 
       case "password":
-        password = value.length < 3 ? "minimum 3 character required" : "";
+       formError.password = value.length < 3 ? "minimum 3 character required" : "";
         break;
 
       default:
+      break;
     }
 
-    this.setState({formError, [name]: value }, () => console.log(this.state))
+    this.setState({ formError, [name]: value }, () => console.log(this.state))
   }
 
   handleSubmit = e => {
     e.preventDefault();
-
+    
     if (formValid(this.state.formError)) {
+      localStorage.setItem('SignUp', JSON.stringify(this.state));
       console.log(`
 firstName:${this.state.firstName}
 lastName:${this.state.lastName}
 Email:${this.state.email}
 password:${this.state.password}
-`)
+`
+
+
+)
     } else {
       console.error('form-invalid')
     }
   };
 
   render() {
+    const {formError} = this.state
     return (<div className="wrapper">
       <div className="form-wrapper">
         <h1>Sign Up</h1>
@@ -91,50 +90,58 @@ password:${this.state.password}
             <label htmlFor="firstname">First Name</label>
             <input
               type="text"
-              className=""
+              className={formError.firstName.length > 0 ? "error" : null}
               placeholder="First Name"
               name="firstName"
               value={this.state.firstName}
               noValidate
-
             ></input>
+            {formError.firstName.length>0 &&(
+              <span className="errorMessage">{formError.firstName}</span>
+            )}
           </div>
 
           <div className="lastName">
             <label htmlFor="lastName">Last Name</label>
             <input
               type="text"
-              className=""
+              className={formError.lastName.length > 0 ? "error" : null}
               placeholder="Last Name"
               value={this.state.lastName}
               name="lastName"
               noValidate
-
             ></input>
+            {formError.lastName.length>0 &&(
+              <span className="errorMessage">{formError.lastName}</span>
+            )}
           </div>
           <div className="email">
             <label htmlFor="email">Email</label>
             <input
               type="email"
-              className=""
+              className={formError.email.length > 0 ? "error" : null}
               value={this.state.email}
               placeholder="Email"
               name="email"
               noValidate
-
             ></input>
+            {formError.email.length>0 &&(
+              <span className="errorMessage">{formError.email}</span>
+            )}
           </div>
           <div className="password">
             <label htmlFor="password">Password</label>
             <input
               type="password"
-              className=""
+              className={formError.password.length > 0 ? "error" : null}
               placeholder="Password"
               name="password"
               value={this.state.password}
               noValidate
-
             ></input>
+            {formError.password.length>0 &&(
+              <span className="errorMessage">{formError.password}</span>
+            )}
           </div>
           <div className="createAccount">
             <button type="submit">Submit</button>
