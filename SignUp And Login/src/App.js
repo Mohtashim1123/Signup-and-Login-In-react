@@ -7,18 +7,31 @@ import React, { Component } from 'react';
 // import User from './component/user'
 // import Child from './Child'
 import './App.css';
-import Route from 'react-router-dom/Route';
-import { BrowserRouter as Router } from 'react-router-dom';
+// import Route from 'react-router-dom/Route';
+import { BrowserRouter as Router,Route } from 'react-router-dom';
 // import uniqueId from 'react-html-id';
 import Login from './LoginComponent/login'
 import Signup from './LoginComponent/signup'
+import Home from './LoginComponent/home';
+import Modal from './LoginComponent/modal';
 
 
 class App extends Component {
   render() {
     return (
       <div>
-        <Login/>
+        {/* <Modal/> */}
+       <Router>
+         <div>
+           {/* <h1>hello</h1> */}
+         <Route exact path='/' component={Signup} />
+         <Route  path='/login' component={Login} />
+         <Route  path='/modal' component={Modal} />
+         <Route  path='/home' component={Home} />
+         </div>
+
+        
+       </Router>
       </div>
       
     );

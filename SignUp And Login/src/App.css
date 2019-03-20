@@ -49,6 +49,10 @@ label {
   color: #222;
   font-weight: lighter;
 }
+.center{
+  display: flex;
+  justify-content: center;
+}
 
 input {
   padding: 10px 10px;

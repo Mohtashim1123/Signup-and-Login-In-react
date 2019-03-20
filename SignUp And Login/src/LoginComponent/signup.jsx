@@ -13,7 +13,7 @@ const formValid = formError => {
 }
 
 
-class App extends Component {
+class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -153,4 +153,4 @@ password:${this.state.password}
 
 }
 
-export default App;
+export default SignUp;
