@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Modal from './modal'
 import Swal from "sweetalert2"
+import alertify from 'alertifyjs'
 
 
 const emailRegExp = RegExp(/^[a-zA-Z0-9.!#$%&`*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
@@ -21,7 +22,8 @@ class Login extends Component {
       email: '',
       // sweetalert: false,
       modalShow: false,
-      // ModalError: '',
+      ModalError: '',
+      ModalRight: false,
       password: '',
       formError: {
         email: "",
@@ -33,6 +35,7 @@ class Login extends Component {
  
 
   handleChange = e => {
+   
     const { name, value } = e.target
     let formError = this.state.formError;
     this.setState({ [name]: value });
@@ -57,14 +60,26 @@ class Login extends Component {
     console.log(this.state.email)
     console.log(result.email)
     if (result.email === this.state.email && result.password === this.state.password) {
-      const props = this.props
-      this.setState({ modalShow: true });
+      
+      alertify.set('notifier','position', 'bottom-left');
+ alertify.success('Current position : ' + alertify.get('notifier','position'));
+      setTimeout(() => {
+        // this.props.history.push('/home')
+      }, 2000);
+
+
+      // this.setState({ ModalRight: true });
+      // this.setState({ modalShow: true });
+    
+      // setTimeout(() => {
+      //   props.history.push('/home')
+      // }, 2000);
       // this.setState({sweetalert:true})
             //  props.history.push('/home')
-      // this.setState({ ModalError: 'Login Success' })
     }
     else {
       console.error('invalid')
+      this.setState({ ModalRight: 'error' })
       this.setState({ modalShow: true });
     }
   };
@@ -98,6 +113,8 @@ class Login extends Component {
           </div>
           <Modal
           modalShow={this.state.modalShow}
+          ModalRight = {this.state.ModalRight}
+          history={this.props.history}
           />
         </form>
       </div>
