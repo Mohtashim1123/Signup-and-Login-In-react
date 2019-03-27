@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import alertify from 'alertifyjs';
 
 
 const emailRegExp = RegExp(/^[a-zA-Z0-9.!#$%&`*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
@@ -21,7 +23,6 @@ class SignUp extends Component {
       lastName: '',
       email: '',
       password: '',
-      firstNames: '',
       formError: {
         firstName: "",
         lastName: "",
@@ -43,19 +44,19 @@ class SignUp extends Component {
         break;
 
       case "lastName":
-      formError.lastName = value.length < 3 ? "minimum 3 character required" : "";
+        formError.lastName = value.length < 3 ? "minimum 3 character required" : "";
         break;
 
       case "email":
-       formError.email = emailRegExp.test(value) ? '' : 'Invalid email address';
+        formError.email = emailRegExp.test(value) ? '' : 'Invalid email address';
         break;
 
       case "password":
-       formError.password = value.length < 3 ? "minimum 3 character required" : "";
+        formError.password = value.length < 3 ? "minimum 3 character required" : "";
         break;
 
       default:
-      break;
+        break;
     }
 
     this.setState({ formError, [name]: value }, () => console.log(this.state))
@@ -63,25 +64,38 @@ class SignUp extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    
-    if (formValid(this.state.formError)) {
+    console.log(this.state.firstName)
+    if (this.state.firstName === '') {
+      alertify.error('SignUp Error');
+    } else if (this.state.lastName === '') {
+      alertify.error('SignUp Error');
+    } else if (this.state.email === '') {
+      alertify.error('SignUp Error');
+    } else if (this.state.password === '') {
+      alertify.error('SignUp Error');
+    }
+    else if (formValid(this.state.formError)) {
       localStorage.setItem('SignUp', JSON.stringify(this.state));
       console.log(`
 firstName:${this.state.firstName}
 lastName:${this.state.lastName}
 Email:${this.state.email}
 password:${this.state.password}
-`
-
-
-)
+`)
+      alertify.success('SignUp Successfully');
+      // const props = this.props;
+      // let s= this
+      setTimeout(() => {
+        this.props.history.push('/login')
+      }, 2000);
     } else {
+      alertify.error('SignUp Error');
       console.error('form-invalid')
     }
   };
 
   render() {
-    const {formError} = this.state
+    const { formError } = this.state
     return (<div className="wrapper">
       <div className="form-wrapper">
         <h1>Sign Up</h1>
@@ -96,7 +110,7 @@ password:${this.state.password}
               value={this.state.firstName}
               noValidate
             ></input>
-            {formError.firstName.length>0 &&(
+            {formError.firstName.length > 0 && (
               <span className="errorMessage">{formError.firstName}</span>
             )}
           </div>
@@ -111,7 +125,7 @@ password:${this.state.password}
               name="lastName"
               noValidate
             ></input>
-            {formError.lastName.length>0 &&(
+            {formError.lastName.length > 0 && (
               <span className="errorMessage">{formError.lastName}</span>
             )}
           </div>
@@ -125,7 +139,7 @@ password:${this.state.password}
               name="email"
               noValidate
             ></input>
-            {formError.email.length>0 &&(
+            {formError.email.length > 0 && (
               <span className="errorMessage">{formError.email}</span>
             )}
           </div>
@@ -139,13 +153,14 @@ password:${this.state.password}
               value={this.state.password}
               noValidate
             ></input>
-            {formError.password.length>0 &&(
+            {formError.password.length > 0 && (
               <span className="errorMessage">{formError.password}</span>
             )}
           </div>
           <div className="createAccount">
             <button type="submit">Submit</button>
           </div>
+          <p className='AlreadySignup'>Already Signup <a href="/login"> Login</a></p>
         </form>
       </div>
     </div>)

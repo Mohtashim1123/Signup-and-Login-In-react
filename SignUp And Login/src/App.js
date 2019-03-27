@@ -13,7 +13,6 @@ import { BrowserRouter as Router,Route } from 'react-router-dom';
 import Login from './LoginComponent/login'
 import Signup from './LoginComponent/signup'
 import Home from './LoginComponent/home';
-import Modal from './LoginComponent/modal';
 
 
 class App extends Component {
@@ -21,12 +20,12 @@ class App extends Component {
     return (
       <div>
         {/* <Modal/> */}
-       <Router>
+        
+       <Router >
          <div>
            {/* <h1>hello</h1> */}
          <Route exact path='/' component={Signup} />
          <Route  path='/login' component={Login} />
-         <Route  path='/modal' component={Modal} />
          <Route  path='/home' component={Home} />
          </div>
 
