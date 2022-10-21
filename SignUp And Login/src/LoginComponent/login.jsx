@@ -14,11 +14,8 @@ const formValid = formError => {
 class Login extends Component {
   constructor(props) {
     super(props);
-    // this.sweetalert = this.sweetalert.bind(this)
     this.state = {
       email: '',
-      // sweetalert: false,
-
       password: '',
       formError: {
         email: "",
@@ -60,23 +57,10 @@ class Login extends Component {
     console.log(this.state.email)
     console.log(result.email)
     if (result.email === this.state.email && result.password === this.state.password) {
-
-
-      // alertify.set('notifier','position', 'bottom-right');
       alertify.success('Login Successfully');
       setTimeout(() => {
         this.props.history.push('/home')
       }, 2000);
-
-
-      // this.setState({ ModalRight: true });
-      // this.setState({ modalShow: true });
-
-      // setTimeout(() => {
-      //   props.history.push('/home')
-      // }, 2000);
-      // this.setState({sweetalert:true})
-      //  props.history.push('/home')
     }
     else {
       console.error('invalid')
@@ -85,7 +69,6 @@ class Login extends Component {
   };
 
   render() {
-    // let modalClose = () => this.setState({ modalShow: false });
     return (<div className="wrapper">
       <div className="form-wrapper">
         <h1>Login</h1>
