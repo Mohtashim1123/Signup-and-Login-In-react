@@ -5,7 +5,7 @@ const child = (props) => {
 return(
     <div>
         <h1>kjkd</h1>
-        <button onClick={props.doWhatEver}>{props.title}</button>
+        <button style={{fontSize:'13px'}} onClick={props.doWhatEver}>{props.title}</button>
     </div>
 )
 }
