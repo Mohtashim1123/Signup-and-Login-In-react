@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import alertify from 'alertifyjs';
 
-
 const emailRegExp = RegExp(/^[a-zA-Z0-9.!#$%&`*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
 
 const formValid = formError => {
@@ -13,7 +12,6 @@ const formValid = formError => {
   });
   return valid;
 }
-
 
 class SignUp extends Component {
   constructor(props) {
@@ -83,8 +81,6 @@ Email:${this.state.email}
 password:${this.state.password}
 `)
       alertify.success('SignUp Successfully');
-      // const props = this.props;
-      // let s= this
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000);
